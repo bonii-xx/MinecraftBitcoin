@@ -1,0 +1,16 @@
+[
+{
+  "modid": "bitcoin",
+  "name": "Bitcoin",
+  "description": "Adds bitcoins, which can be used in the TE Numismatic Dynamo.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["boni"],
+  "credits": "boni",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

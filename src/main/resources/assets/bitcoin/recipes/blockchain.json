@@ -1,0 +1,17 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "   ",
+        "AAA",
+        "   "
+    ],
+    "key": {
+        "A": {
+            "item": "bitcoin:bitcoin_block"
+        }
+    },
+    "result": {
+        "item": "bitcoin:block_chain",
+        "count": 1
+    }
+}
