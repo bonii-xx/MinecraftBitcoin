@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -20,6 +21,8 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import boni.bitcoin.stockexchange.BullAndBear;
 
 @Mod(modid = BitCoinMod.MOD_ID,
     name = "BitCoin",
@@ -32,7 +35,12 @@ public class BitCoinMod {
   public static final String modVersion = "${version}";
 
   private static final int BITCOIN_MINT_ENERGY = 10000;
-  private static final int BITCOIN_ENERGY_OUTPUT = 500000;
+  private static final int BITCOIN_ENERGY_MIN = 200000;
+  private static final int BITCOIN_ENERGY_MAX = 500000;
+
+  private static final ThermalExpansion te = new ThermalExpansion();
+
+  static final BullAndBear bullAndBear = new BullAndBear(BITCOIN_ENERGY_MIN, BITCOIN_ENERGY_MAX, te::updateBitcoinRecipe);
 
   static final Block bitCoinOre = getBitcoinOre();
   static final Block bitCoinBlock = getBitcoinBlock();
@@ -43,16 +51,16 @@ public class BitCoinMod {
   private static CommonProxy proxy;
 
   @Mod.EventHandler
-  public void postInit(FMLPostInitializationEvent event)
-      throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+  public void postInit(FMLPostInitializationEvent event) {
+    MinecraftForge.EVENT_BUS.register(bullAndBear);
 
     // melt ore into block
     GameRegistry.addSmelting(bitCoinOre, new ItemStack(bitCoinBlock), 0);
     // craft block into blockchain - recipe json
     // compact blockchain into bitcoin
-    registerCompactionRecipes();
+    te.addCompactionRecipe(BITCOIN_MINT_ENERGY);
     // burn bitcoin for energy
-    registerNumismaticDynamoFuel();
+    te.addBitcoinRecipe(bullAndBear.getCurrentValue());
 
     registerWorldgen();
     registerOredict();
@@ -87,24 +95,6 @@ public class BitCoinMod {
     OreDictionary.registerOre("bitcoin", bitCoin);
   }
 
-  private void registerCompactionRecipes()
-      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-    Class<?> compactorManager = Class.forName("cofh.thermalexpansion.util.managers.machine.CompactorManager");
-    Class<?> compactorMode = Class.forName("cofh.thermalexpansion.util.managers.machine.CompactorManager$Mode");
-
-    Method method = compactorManager.getDeclaredMethod("addRecipe", int.class, ItemStack.class, ItemStack.class, compactorMode);
-
-    method.invoke(null, BITCOIN_MINT_ENERGY, new ItemStack(blockChain), new ItemStack(bitCoin), compactorMode.getEnumConstants()[2]);
-  }
-
-  private void registerNumismaticDynamoFuel()
-      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-    Class<?> numismaticManager = Class.forName("cofh.thermalexpansion.util.managers.dynamo.NumismaticManager");
-    Method method = numismaticManager.getDeclaredMethod("addFuel", ItemStack.class, int.class);
-
-    method.invoke(null, new ItemStack(bitCoin), BITCOIN_ENERGY_OUTPUT);
-  }
-
   private static Block getBitcoinOre() {
     Block block = new BlockOre();
     block.setRegistryName("bitcoin_ore");
@@ -132,7 +122,7 @@ public class BitCoinMod {
   }
 
   private static Item getBitcoinItem() {
-    Item item = new Item();
+    Item item = new ItemBitcoin();
     item.setRegistryName("bitcoin");
     item.setUnlocalizedName("bitcoin");
     return item;
