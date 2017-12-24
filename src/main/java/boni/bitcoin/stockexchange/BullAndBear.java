@@ -15,7 +15,7 @@ import boni.bitcoin.BitCoinMod;
 public class BullAndBear {
 
   private static final Random RANDOM = new Random();
-  private final static int UPDATE_RATE = 20*5; // every 5 seconds
+  private final static int UPDATE_RATE = 20*3; // every 3 seconds
   private final static int LOCAL_UPDATE_RATE = 20*60*3; // every 3 minutes
 
   // configuration
@@ -50,7 +50,7 @@ public class BullAndBear {
 
   @SubscribeEvent
   public void onWorldTick(TickEvent.WorldTickEvent worldTickEvent) {
-    if(worldTickEvent.phase == TickEvent.Phase.END) {
+    if(worldTickEvent.phase == TickEvent.Phase.END && !worldTickEvent.world.isRemote) {
       long currentTime = worldTickEvent.world.getTotalWorldTime();
       modifyValue(currentTime);
     }

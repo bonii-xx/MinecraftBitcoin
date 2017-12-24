@@ -55,9 +55,7 @@ public class BitCoinMod {
 
   @Mod.EventHandler
   public void postInit(FMLPostInitializationEvent event) {
-    if(event.getSide() == Side.SERVER) {
-      MinecraftForge.EVENT_BUS.register(bullAndBear);
-    }
+    MinecraftForge.EVENT_BUS.register(bullAndBear);
 
     // melt ore into block
     GameRegistry.addSmelting(bitCoinOre, new ItemStack(bitCoinBlock), 0);
