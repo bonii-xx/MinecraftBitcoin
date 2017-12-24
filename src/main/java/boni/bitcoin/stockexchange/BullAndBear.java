@@ -9,6 +9,8 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import boni.bitcoin.BitCoinMod;
+
 @Mod.EventBusSubscriber
 public class BullAndBear {
 
@@ -58,6 +60,11 @@ public class BullAndBear {
     return currentValue;
   }
 
+  public void setCurrentValue(int currentValue) {
+    this.currentValue = currentValue;
+    updateMethod.accept(currentValue);
+  }
+
   private void modifyValue(long currentTime) {
     if(nextTick < currentTime) {
       if(nextLocalTick < currentTime) {
@@ -65,6 +72,7 @@ public class BullAndBear {
       } else {
         updateCurrentValue(currentTime);
       }
+      BitCoinMod.bitcoinNetwork.sendBitcoinUpdate();
     }
   }
 
@@ -94,13 +102,15 @@ public class BullAndBear {
   }
 
   private void updateCurrentValue(long currentTime) {
-    currentValue += currentValueStep;
+    int newValue = currentValue + currentValueStep;
     // continous updates are linear
     nextTick = currentTime + UPDATE_RATE;
+
+    this.setCurrentValue(newValue);
   }
 
   private void calculateNextLocalValue(long currentTime) {
-    currentValue = nextLocalValue;
+    this.setCurrentValue(nextLocalValue);
 
     int targetValue = nextTargetValues.poll();
     // local updates have 20% variance in time

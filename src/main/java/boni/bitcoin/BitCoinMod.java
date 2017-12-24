@@ -17,11 +17,13 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import boni.bitcoin.stockexchange.BitcoinNetwork;
 import boni.bitcoin.stockexchange.BullAndBear;
 
 @Mod(modid = BitCoinMod.MOD_ID,
@@ -40,7 +42,8 @@ public class BitCoinMod {
 
   private static final ThermalExpansion te = new ThermalExpansion();
 
-  static final BullAndBear bullAndBear = new BullAndBear(BITCOIN_ENERGY_MIN, BITCOIN_ENERGY_MAX, te::updateBitcoinRecipe);
+  public static final BullAndBear bullAndBear = new BullAndBear(BITCOIN_ENERGY_MIN, BITCOIN_ENERGY_MAX, te::updateBitcoinRecipe);
+  public static final BitcoinNetwork bitcoinNetwork = new BitcoinNetwork();
 
   static final Block bitCoinOre = getBitcoinOre();
   static final Block bitCoinBlock = getBitcoinBlock();
@@ -52,7 +55,9 @@ public class BitCoinMod {
 
   @Mod.EventHandler
   public void postInit(FMLPostInitializationEvent event) {
-    MinecraftForge.EVENT_BUS.register(bullAndBear);
+    if(event.getSide() == Side.SERVER) {
+      MinecraftForge.EVENT_BUS.register(bullAndBear);
+    }
 
     // melt ore into block
     GameRegistry.addSmelting(bitCoinOre, new ItemStack(bitCoinBlock), 0);

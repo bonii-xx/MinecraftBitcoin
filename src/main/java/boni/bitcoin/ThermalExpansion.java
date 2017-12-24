@@ -1,6 +1,8 @@
 package boni.bitcoin;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
