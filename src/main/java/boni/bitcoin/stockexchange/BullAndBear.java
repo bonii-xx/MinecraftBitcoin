@@ -131,7 +131,7 @@ public class BullAndBear {
     final double growthFactor = 1d/2d;
     double stepValue = currentValue;
     int nextGlobalValue = minValue + RANDOM.nextInt(maxValue - minValue);
-    int steps = 4 + RANDOM.nextInt(2);
+    int steps = 2 + RANDOM.nextInt(4);
 
     for(int i = 0; i < steps; i++) {
       double dif = nextGlobalValue - stepValue;

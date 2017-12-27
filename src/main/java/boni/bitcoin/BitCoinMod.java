@@ -63,7 +63,7 @@ public class BitCoinMod {
     te.addCompactionRecipe(BITCOIN_MINT_ENERGY);
     // burn bitcoin for energy
     te.addBitcoinRecipe(bullAndBear.getCurrentValue());
-    
+
     registerOredict();
   }
 
