@@ -1,5 +1,6 @@
 package boni.bitcoin;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,6 +14,6 @@ public class ItemBitcoin extends Item {
 
   @Override
   public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-    tooltip.add("Current value: " + BitCoinMod.bullAndBear.getCurrentValue() + " RF");
+    tooltip.add(I18n.format("bitcoin.tooltip") + " " + BitCoinMod.bullAndBear.getCurrentValue() + " RF");
   }
 }

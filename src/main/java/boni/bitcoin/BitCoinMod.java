@@ -14,6 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -54,9 +55,7 @@ public class BitCoinMod {
   private static CommonProxy proxy;
 
   @Mod.EventHandler
-  public void postInit(FMLPostInitializationEvent event) {
-    MinecraftForge.EVENT_BUS.register(bullAndBear);
-
+  public void init(FMLInitializationEvent event) {
     // melt ore into block
     GameRegistry.addSmelting(bitCoinOre, new ItemStack(bitCoinBlock), 0);
     // craft block into blockchain - recipe json
@@ -64,9 +63,15 @@ public class BitCoinMod {
     te.addCompactionRecipe(BITCOIN_MINT_ENERGY);
     // burn bitcoin for energy
     te.addBitcoinRecipe(bullAndBear.getCurrentValue());
+    
+    registerOredict();
+  }
+
+  @Mod.EventHandler
+  public void postInit(FMLPostInitializationEvent event) {
+    MinecraftForge.EVENT_BUS.register(bullAndBear);
 
     registerWorldgen();
-    registerOredict();
   }
 
   @SubscribeEvent
