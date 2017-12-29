@@ -1,5 +1,9 @@
 package boni.bitcoin.stockexchange;
 
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
@@ -44,24 +48,25 @@ public class BullAndBear {
     this.maxValue = maxValue;
     this.updateMethod = updateMethod;
     this.localVariance = (maxValue - minValue) / 2;
-    init(minValue + (maxValue - minValue) / 2);
+    init(minValue + (maxValue - minValue) / 2, 0);
   }
 
-  public void init(int value) {
-    System.out.println("Initializing bullandbear with " + value);
+  public void init(int value, long currentTime) {
     this.currentValue = value;
     this.nextLocalValue = currentValue;
-    this.nextTick = 0;
-    this.nextLocalTick = 0;
+    this.nextTick = currentTime + UPDATE_RATE;
+    this.nextLocalTick = currentTime + UPDATE_RATE;
     this.currentValueStep = 0;
 
+    this.nextTargetValues.clear();
     calculateNextTargetValues();
-    calculateNextLocalValue(0);
+    calculateNextLocalValue(currentTime);
   }
 
   public void onServerStarting(FMLServerStartingEvent serverStartingEvent) {
-    data = BitcoinWorldSaveData.get(serverStartingEvent.getServer().getWorld(0));
-    init(data.getValue());
+    World world = serverStartingEvent.getServer().getEntityWorld();
+    data = BitcoinWorldSaveData.get(world);
+    init(data.getValue(), world.getTotalWorldTime());
   }
 
   public void OnServerStopped(FMLServerStoppedEvent serverStoppedEvent) {

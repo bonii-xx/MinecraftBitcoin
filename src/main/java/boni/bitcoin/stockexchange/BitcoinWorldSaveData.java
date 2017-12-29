@@ -9,11 +9,16 @@ import boni.bitcoin.BitCoinMod;
 
 public class BitcoinWorldSaveData extends WorldSavedData {
 
+  private static final String DATA_IDENTIFIER = "bitcoin";
   private static final String KEY = "value";
   private int value;
 
   public BitcoinWorldSaveData(String name) {
     super(name);
+  }
+
+  public BitcoinWorldSaveData() {
+    this(DATA_IDENTIFIER);
   }
 
   public int getValue() {
@@ -26,7 +31,7 @@ public class BitcoinWorldSaveData extends WorldSavedData {
 
   @Override
   public void readFromNBT(NBTTagCompound nbt) {
-    value = nbt.getInteger("value");
+    value = nbt.getInteger(KEY);
   }
 
   @Override
@@ -36,13 +41,12 @@ public class BitcoinWorldSaveData extends WorldSavedData {
   }
 
   public static BitcoinWorldSaveData get(World world) {
-    String identifier = "bitcoin";
     MapStorage storage = world.getPerWorldStorage();
-    BitcoinWorldSaveData data = (BitcoinWorldSaveData) storage.getOrLoadData(BitcoinWorldSaveData.class, identifier);
+    BitcoinWorldSaveData data = (BitcoinWorldSaveData) storage.getOrLoadData(BitcoinWorldSaveData.class, DATA_IDENTIFIER);
     if(data == null) {
-      data = new BitcoinWorldSaveData("bullAndBear");
+      data = new BitcoinWorldSaveData();
       data.setValue(BitCoinMod.bullAndBear.getCurrentValue());
-      storage.setData(identifier, data);
+      storage.setData(DATA_IDENTIFIER, data);
     }
     return data;
   }
