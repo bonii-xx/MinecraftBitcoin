@@ -5,7 +5,63 @@
         "model": "bitcoin:bitcoin_ore"
     },
 	"variants": {
-		"normal": [{}],
-		"inventory": [{}]
+		"normal": [
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_1"}, "y": 0},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_2"}, "y": 0},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_3"}, "y": 0},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_4"}, "y": 0},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_1"}, "y": 90},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_2"}, "y": 90},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_3"}, "y": 90},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_4"}, "y": 90},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_1"}, "y": 180},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_2"}, "y": 180},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_3"}, "y": 180},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_4"}, "y": 180},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_1"}, "y": 270},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_2"}, "y": 270},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_3"}, "y": 270},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_4"}, "y": 270},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_1"}, "x": 0},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_2"}, "x": 0},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_3"}, "x": 0},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_4"}, "x": 0},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_1"}, "x": 90},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_2"}, "x": 90},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_3"}, "x": 90},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_4"}, "x": 90},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_1"}, "x": 180},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_2"}, "x": 180},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_3"}, "x": 180},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_4"}, "x": 180},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_1"}, "x": 270},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_2"}, "x": 270},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_3"}, "x": 270},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_4"}, "x": 270},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_1"}, "z": 0},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_2"}, "z": 0},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_3"}, "z": 0},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_4"}, "z": 0},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_1"}, "z": 90},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_2"}, "z": 90},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_3"}, "z": 90},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_4"}, "z": 90},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_1"}, "z": 180},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_2"}, "z": 180},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_3"}, "z": 180},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_4"}, "z": 180},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_1"}, "z": 270},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_2"}, "z": 270},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_3"}, "z": 270},
+          {"textures": {"animation": "bitcoin:blocks/bitcoin_ore_animation_4"}, "z": 270}
+        ],
+		"inventory": [{
+          "textures": {
+            "animationU": "bitcoin:blocks/bitcoin_ore_animation_1",
+            "animationS": "bitcoin:blocks/bitcoin_ore_animation_2",
+            "animationE": "bitcoin:blocks/bitcoin_ore_animation_3",
+            "animationW": "bitcoin:blocks/bitcoin_ore_animation_4"
+          }
+        }]
     }
 }

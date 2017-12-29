@@ -117,7 +117,7 @@ public class BitCoinMod {
   }
 
   private static Block getBitcoinOre() {
-    Block block = new BlockOre();
+    Block block = new BlockBitcoinOre();
     block.setRegistryName("bitcoin_ore");
     block.setUnlocalizedName("oreBitcoin");
     block.setHardness(4);
