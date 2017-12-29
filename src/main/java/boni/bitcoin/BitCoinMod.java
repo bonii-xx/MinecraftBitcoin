@@ -127,7 +127,7 @@ public class BitCoinMod {
   }
 
   private static Block getBitcoinBlock() {
-    Block block = new Block(Material.IRON);
+    Block block = new BlockBitcoinOre();
     block.setRegistryName("bitcoin_block");
     block.setUnlocalizedName("blockBitcoin");
     block.setHardness(4);

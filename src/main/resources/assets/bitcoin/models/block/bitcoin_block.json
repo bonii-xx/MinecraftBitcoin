@@ -1,6 +1,38 @@
 {
-    "parent": "block/cube_all",
     "textures": {
-        "all": "bitcoin:blocks/bitcoin_block"
-    }
+        "all": "bitcoin:blocks/bitcoin_block",
+        "overlay": "bitcoin:blocks/bitcoin_block",
+        "particle": "#all",
+        "animation": "bitcoin:blocks/bitcoin_ore_animation_1",
+        "animationD": "#animation",
+        "animationU": "#animation",
+        "animationN": "#animation",
+        "animationS": "#animation",
+        "animationW": "#animation",
+        "animationE": "#animation"
+    },
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#all",   "cullface": "down" },
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#all",   "cullface": "up" },
+                "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#all",   "cullface": "north" },
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#all",   "cullface": "south" },
+                "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#all",   "cullface": "west" },
+                "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#all",   "cullface": "east" }
+            }
+        },
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#animationD", "cullface": "down" },
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#animationU", "cullface": "up" },
+                "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#animationN", "cullface": "north" },
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#animationS", "cullface": "south" },
+                "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#animationW", "cullface": "west" },
+                "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#animationE", "cullface": "east" }
+            }
+        }
+    ]
 }
