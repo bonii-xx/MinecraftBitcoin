@@ -1,6 +1,8 @@
 package boni.bitcoin.stockexchange;
 
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -15,8 +17,8 @@ import boni.bitcoin.BitCoinMod;
 public class BullAndBear {
 
   private static final Random RANDOM = new Random();
-  private final static int UPDATE_RATE = 20*3; // every 3 seconds
-  private final static int LOCAL_UPDATE_RATE = 20*60*3; // every 3 minutes
+  private final static int UPDATE_RATE = 20 * 3; // every 3 seconds
+  private final static int LOCAL_UPDATE_RATE = 20 * 60 * 3; // every 3 minutes
 
   // configuration
   private final int minValue;
@@ -35,22 +37,40 @@ public class BullAndBear {
 
   // the longer term target, which the local target fluctuates around.
   private Queue<Integer> nextTargetValues = new LinkedList<>();
+  private BitcoinWorldSaveData data = null;
 
   public BullAndBear(int minValue, int maxValue, Consumer<Integer> updateMethod) {
     this.minValue = minValue;
     this.maxValue = maxValue;
     this.updateMethod = updateMethod;
-    this.localVariance = (maxValue - minValue)/2;
-    this.currentValue = minValue + (maxValue-minValue)/2;
+    this.localVariance = (maxValue - minValue) / 2;
+    init(minValue + (maxValue - minValue) / 2);
+  }
+
+  public void init(int value) {
+    System.out.println("Initializing bullandbear with " + value);
+    this.currentValue = value;
+    this.nextLocalValue = currentValue;
+    this.nextTick = 0;
+    this.nextLocalTick = 0;
+    this.currentValueStep = 0;
 
     calculateNextTargetValues();
-    this.nextLocalValue = currentValue;
     calculateNextLocalValue(0);
+  }
+
+  public void onServerStarting(FMLServerStartingEvent serverStartingEvent) {
+    data = BitcoinWorldSaveData.get(serverStartingEvent.getServer().getWorld(0));
+    init(data.getValue());
+  }
+
+  public void OnServerStopped(FMLServerStoppedEvent serverStoppedEvent) {
+    data = null;
   }
 
   @SubscribeEvent
   public void onWorldTick(TickEvent.WorldTickEvent worldTickEvent) {
-    if(worldTickEvent.phase == TickEvent.Phase.END && !worldTickEvent.world.isRemote) {
+    if(worldTickEvent.phase == TickEvent.Phase.END && !worldTickEvent.world.isRemote && data != null) {
       long currentTime = worldTickEvent.world.getTotalWorldTime();
       modifyValue(currentTime);
     }
@@ -69,13 +89,17 @@ public class BullAndBear {
     if(nextTick < currentTime) {
       if(nextLocalTick < currentTime) {
         calculateNextLocalValue(currentTime);
-      } else {
+      }
+      else {
         updateCurrentValue(currentTime);
       }
       BitCoinMod.bitcoinNetwork.sendBitcoinUpdate();
+      data.setValue(currentValue);
+      data.setDirty(true);
     }
   }
 
+  // Debug
   public void simulateCurve(int amountOfGlobalStepsToSimulate) {
     int globalStepCount = 0;
     long clock = 0;
@@ -95,7 +119,7 @@ public class BullAndBear {
       lastLocalCount = nextTargetValues.size();
 
       if(currentValue != lastCurrentValue) {
-        System.out.println(""+clock+"\t"+currentValue);
+        System.out.println("" + clock + "\t" + currentValue);
         lastCurrentValue = currentValue;
       }
     }
@@ -114,12 +138,12 @@ public class BullAndBear {
 
     int targetValue = nextTargetValues.poll();
     // local updates have 20% variance in time
-    int variance = LOCAL_UPDATE_RATE/5;
+    int variance = LOCAL_UPDATE_RATE / 5;
     nextLocalTick = currentTime + LOCAL_UPDATE_RATE + getMeanRandom(variance);
     // add some spikyness
     nextLocalValue = targetValue + getMeanRandom(localVariance);
     long timeTillNextLocalTick = nextLocalTick - currentTime;
-    currentValueStep = (int)((nextLocalValue - currentValue) / (timeTillNextLocalTick/ UPDATE_RATE));
+    currentValueStep = (int) ((nextLocalValue - currentValue) / (timeTillNextLocalTick / UPDATE_RATE));
 
     if(nextTargetValues.isEmpty()) {
       calculateNextTargetValues();
@@ -128,7 +152,7 @@ public class BullAndBear {
   }
 
   private void calculateNextTargetValues() {
-    final double growthFactor = 1d/2d;
+    final double growthFactor = 1d / 2d;
     double stepValue = currentValue;
     int nextGlobalValue = minValue + RANDOM.nextInt(maxValue - minValue);
     int steps = 2 + RANDOM.nextInt(4);
@@ -136,13 +160,13 @@ public class BullAndBear {
     for(int i = 0; i < steps; i++) {
       double dif = nextGlobalValue - stepValue;
       double nextValue = stepValue + dif * growthFactor;
-      nextTargetValues.add(Math.round((float)nextValue));
+      nextTargetValues.add(Math.round((float) nextValue));
       stepValue = nextValue;
     }
     nextTargetValues.add(nextGlobalValue);
   }
 
   private int getMeanRandom(int variance) {
-    return RANDOM.nextInt(variance) - variance/2;
+    return RANDOM.nextInt(variance) - variance / 2;
   }
 }

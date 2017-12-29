@@ -16,6 +16,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,6 +27,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import boni.bitcoin.stockexchange.BitcoinNetwork;
+import boni.bitcoin.stockexchange.BitcoinWorldSaveData;
 import boni.bitcoin.stockexchange.BullAndBear;
 
 @Mod(modid = BitCoinMod.MOD_ID,
@@ -91,6 +94,16 @@ public class BitCoinMod {
   @SubscribeEvent
   public static void registerModels(ModelRegistryEvent event) {
     proxy.registerModels();
+  }
+
+  @Mod.EventHandler
+  public void onServerStarting(FMLServerStartingEvent serverStartingEvent) {
+    bullAndBear.onServerStarting(serverStartingEvent);
+  }
+
+  @Mod.EventHandler
+  public void OnServerStopped(FMLServerStoppedEvent serverStoppedEvent) {
+    bullAndBear.OnServerStopped(serverStoppedEvent);
   }
 
   private void registerWorldgen() {
