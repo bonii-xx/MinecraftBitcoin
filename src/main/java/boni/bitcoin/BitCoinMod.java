@@ -44,9 +44,7 @@ public class BitCoinMod {
   private static final int BITCOIN_ENERGY_MIN = 200000;
   private static final int BITCOIN_ENERGY_MAX = 500000;
 
-  private static final ThermalExpansion te = new ThermalExpansion();
-
-  public static final BullAndBear bullAndBear = new BullAndBear(BITCOIN_ENERGY_MIN, BITCOIN_ENERGY_MAX, te::updateBitcoinRecipe);
+  public static final BullAndBear bullAndBear = new BullAndBear(BITCOIN_ENERGY_MIN, BITCOIN_ENERGY_MAX, ThermalExpansion::updateBitcoinRecipe);
   public static final BitcoinNetwork bitcoinNetwork = new BitcoinNetwork();
 
   static final Block bitCoinOre = getBitcoinOre();
@@ -63,9 +61,9 @@ public class BitCoinMod {
     GameRegistry.addSmelting(bitCoinOre, new ItemStack(bitCoinBlock), 0);
     // craft block into blockchain - recipe json
     // compact blockchain into bitcoin
-    te.addCompactionRecipe(BITCOIN_MINT_ENERGY);
+    ThermalExpansion.addCompactionRecipe(BITCOIN_MINT_ENERGY);
     // burn bitcoin for energy
-    te.addBitcoinRecipe(bullAndBear.getCurrentValue());
+    ThermalExpansion.addBitcoinRecipe(bullAndBear.getCurrentValue());
 
     registerOredict();
   }
