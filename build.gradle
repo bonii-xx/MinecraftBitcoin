@@ -76,3 +76,5 @@ processResources {
         exclude 'mcmod.info'
     }
 }
+
+version = "${project.minecraft.version}-${project.version}"
