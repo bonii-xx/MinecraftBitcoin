@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -56,6 +57,11 @@ public class BitCoinMod {
   private static CommonProxy proxy;
 
   @Mod.EventHandler
+  public void preInit(FMLPreInitializationEvent event) {
+    BitcoinProps.preInit();
+  }
+
+  @Mod.EventHandler
   public void init(FMLInitializationEvent event) {
     // melt ore into block
     GameRegistry.addSmelting(bitCoinOre, new ItemStack(bitCoinBlock), 0);
@@ -71,8 +77,6 @@ public class BitCoinMod {
   @Mod.EventHandler
   public void postInit(FMLPostInitializationEvent event) {
     MinecraftForge.EVENT_BUS.register(bullAndBear);
-
-    registerWorldgen();
   }
 
   @SubscribeEvent
