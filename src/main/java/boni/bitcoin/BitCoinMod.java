@@ -34,7 +34,7 @@ import boni.bitcoin.stockexchange.BullAndBear;
 @Mod(modid = BitCoinMod.MOD_ID,
     name = "BitCoin",
     version = BitCoinMod.modVersion,
-    dependencies = "required-after:thermalexpansion",
+    dependencies = "required-after:thermalexpansion@[5.4.0,)",
     acceptedMinecraftVersions = "[1.12, 1.13)")
 @Mod.EventBusSubscriber
 public class BitCoinMod {
