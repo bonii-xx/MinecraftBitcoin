@@ -11,7 +11,7 @@ import cofh.thermalexpansion.util.managers.machine.CompactorManager;
 public class ThermalExpansion {
 
   public static void addCompactionRecipe(int energy) {
-    CompactorManager.addRecipe(energy, new ItemStack(BitCoinMod.blockChain), new ItemStack(BitCoinMod.bitCoin), CompactorManager.Mode.MINT);
+    CompactorManager.addRecipe(energy, new ItemStack(BitCoinMod.blockChain), new ItemStack(BitCoinMod.bitCoin), CompactorManager.Mode.COIN);
   }
 
   public static void addBitcoinRecipe(int energy) {
