@@ -1,0 +1,6 @@
+item.bitcoin.name=比特币
+item.blockchain.name=区块链
+tile.blockBitcoin.name=比特币块
+tile.oreBitcoin.name=比特币矿石
+
+bitcoin.tooltip=目前价值：
